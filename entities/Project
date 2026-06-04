@@ -1,0 +1,78 @@
+{
+  "name": "Project",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "Title"
+    },
+    "category": {
+      "type": "string",
+      "title": "Category",
+      "enum": [
+        "Programming",
+        "Engineering",
+        "AI",
+        "Extracurricular",
+        "Other"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "long_description": {
+      "type": "string",
+      "title": "Detailed Write-up"
+    },
+    "images": {
+      "type": "array",
+      "title": "Images",
+      "items": {
+        "type": "string"
+      }
+    },
+    "videos": {
+      "type": "array",
+      "title": "Videos",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "title": "Tags",
+      "items": {
+        "type": "string"
+      }
+    },
+    "featured": {
+      "type": "boolean",
+      "title": "Featured",
+      "default": false
+    },
+    "display_order": {
+      "type": "number",
+      "title": "Display Order",
+      "default": 0
+    },
+    "link": {
+      "type": "string",
+      "title": "Project Link"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "Completed",
+        "In Progress",
+        "Archived"
+      ],
+      "default": "Completed"
+    }
+  },
+  "required": [
+    "title",
+    "category"
+  ]
+}
