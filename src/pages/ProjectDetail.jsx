@@ -7,6 +7,8 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ExternalLink, Play, Image as ImageIcon, Loader2 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import ReactMarkdown from 'react-markdown';
+// 1. Import Giscus at the top
+import Giscus from '@giscus/react';
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -175,6 +177,28 @@ export default function ProjectDetail() {
             </div>
           </ScrollReveal>
         )}
+
+        {/* 2. Drop the Comment section wrapper down here */}
+        <ScrollReveal className="mt-12">
+          <div className="glass-strong rounded-3xl p-8 sm:p-10">
+            <h2 className="text-2xl font-bold mb-6">Comments</h2>
+            <Giscus
+              id="project-comments"
+              repo="AaravTheCoder/portfolio"
+              repoId="R_kgDOSwmXHQ"
+              category="General"
+              categoryId="DIC_kwDOSwmXHc4C-jnd"
+              mapping="pathname"          // Keeps comments unique to the browser path
+              reactionsEnabled="1"
+              emitMetadata="0"
+              inputPosition="top"
+              theme="transparent_dark" 
+              lang="en"
+              loading="lazy"
+            />
+          </div>
+        </ScrollReveal>
+
       </div>
     </div>
   );
