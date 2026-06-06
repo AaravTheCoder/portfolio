@@ -192,7 +192,7 @@ export default function ProjectDetail() {
               reactionsEnabled="1"
               emitMetadata="0"
               inputPosition="top"
-              theme="transparent_dark" 
+              theme="noborder_light" 
               lang="en"
               loading="lazy"
             />
