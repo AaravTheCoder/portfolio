@@ -45,17 +45,18 @@ export default function Home() {
       const sceneHeight = el.offsetHeight;
       const scroll = window.scrollY;
       const FADE_IN = sceneHeight * 0.04;
-      const FADE_OUT = sceneHeight * 0.10;
+      const FADE_OUT_START = sceneTop + sceneHeight * 0.80;
+      const FADE_OUT_END   = sceneTop + sceneHeight * 0.88;
 
       let color;
       if (scroll < sceneTop) {
         color = LIGHT;
       } else if (scroll < sceneTop + FADE_IN) {
         color = lerp(LIGHT, DARK, (scroll - sceneTop) / FADE_IN);
-      } else if (scroll < sceneTop + sceneHeight - FADE_OUT) {
+      } else if (scroll < FADE_OUT_START) {
         color = DARK;
-      } else if (scroll < sceneTop + sceneHeight) {
-        color = lerp(DARK, LIGHT, (scroll - (sceneTop + sceneHeight - FADE_OUT)) / FADE_OUT);
+      } else if (scroll < FADE_OUT_END) {
+        color = lerp(DARK, LIGHT, (scroll - FADE_OUT_START) / (FADE_OUT_END - FADE_OUT_START));
       } else {
         color = LIGHT;
       }
