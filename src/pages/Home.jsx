@@ -1,10 +1,11 @@
 import { db as realDb } from '@/api/base44Client'; const db = realDb;
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import HeroSection from '../components/HeroSection';
+import ScrollScene from '../components/ScrollScene';
 import ProjectCard from '../components/ProjectCard';
 import CategoryFilter from '../components/CategoryFilter';
 import StatsSection from '../components/StatsSection';
@@ -16,6 +17,59 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
   const [contactOpen, setContactOpen] = useState(false);
+
+  const scrollSceneRef = useRef(null);
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    const LIGHT = '#f4f5f9';
+    const DARK = '#0b0d13';
+
+    const lerp = (a, b, t) => {
+      const parse = (hex) => [
+        parseInt(hex.slice(1, 3), 16),
+        parseInt(hex.slice(3, 5), 16),
+        parseInt(hex.slice(5, 7), 16),
+      ];
+      const ca = parse(a), cb = parse(b);
+      const r = Math.round(ca[0] + (cb[0] - ca[0]) * t);
+      const g = Math.round(ca[1] + (cb[1] - ca[1]) * t);
+      const bl = Math.round(ca[2] + (cb[2] - ca[2]) * t);
+      return `rgb(${r},${g},${bl})`;
+    };
+
+    const update = () => {
+      if (!scrollSceneRef.current || !rootRef.current) return;
+      const el = scrollSceneRef.current;
+      const sceneTop = el.offsetTop;
+      const sceneHeight = el.offsetHeight;
+      const scroll = window.scrollY;
+      const FADE_IN = sceneHeight * 0.04;
+      const FADE_OUT = sceneHeight * 0.10;
+
+      let color;
+      if (scroll < sceneTop) {
+        color = LIGHT;
+      } else if (scroll < sceneTop + FADE_IN) {
+        color = lerp(LIGHT, DARK, (scroll - sceneTop) / FADE_IN);
+      } else if (scroll < sceneTop + sceneHeight - FADE_OUT) {
+        color = DARK;
+      } else if (scroll < sceneTop + sceneHeight) {
+        color = lerp(DARK, LIGHT, (scroll - (sceneTop + sceneHeight - FADE_OUT)) / FADE_OUT);
+      } else {
+        color = LIGHT;
+      }
+      rootRef.current.style.background = color;
+    };
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
 
   useEffect(() => {
     const load = async () => {
@@ -33,8 +87,13 @@ export default function Home() {
   const featured = projects.filter((p) => p.featured);
 
   return (
-    <div>
+    <div ref={rootRef} style={{ background: '#f4f5f9' }}>
       <HeroSection />
+
+      {/* ── Scroll-driven 3D particle animation ── */}
+      <div ref={scrollSceneRef}>
+        <ScrollScene />
+      </div>
 
       {loading ?
       <div className="flex justify-center py-32">
