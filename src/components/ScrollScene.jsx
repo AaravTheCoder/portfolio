@@ -178,14 +178,36 @@ function ParticleCloud({ scroll }) {
   );
 }
 
-// ── Canvas scene ──────────────────────────────────────────────────
-function Scene({ scroll }) {
+// ── Mouse-driven scene rotation ───────────────────────────────────
+function SceneGroup({ scroll, mouse }) {
+  const groupRef = useRef(null);
+  const rx = useRef(0);
+  const ry = useRef(0);
+
+  useFrame(() => {
+    if (!groupRef.current) return;
+    // Smoothly lerp toward mouse target
+    rx.current += (mouse.current[1] * 0.3 - rx.current) * 0.05;
+    ry.current += (mouse.current[0] * 0.4 - ry.current) * 0.05;
+    groupRef.current.rotation.x = rx.current;
+    groupRef.current.rotation.y = ry.current;
+  });
+
   return (
-    <>
-      <ambientLight intensity={0.05} />
+    <group ref={groupRef}>
       <ParticleCloud scroll={scroll} />
       <Rings scroll={scroll} />
       <CoreShape scroll={scroll} />
+    </group>
+  );
+}
+
+// ── Canvas scene ──────────────────────────────────────────────────
+function Scene({ scroll, mouse }) {
+  return (
+    <>
+      <ambientLight intensity={0.05} />
+      <SceneGroup scroll={scroll} mouse={mouse} />
     </>
   );
 }
@@ -257,8 +279,20 @@ export default function ScrollScene() {
   const ref = useRef(null);
   const [mounted, setMounted] = useState(false);
   const scrollRef = useRef(0);
+  const mouseRef = useRef([0, 0]);
 
   useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    const onMove = (e) => {
+      mouseRef.current = [
+        (e.clientX / window.innerWidth) * 2 - 1,
+        -((e.clientY / window.innerHeight) * 2 - 1),
+      ];
+    };
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -300,7 +334,7 @@ export default function ScrollScene() {
             dpr={[1, 1.5]}
           >
             <Suspense fallback={null}>
-              <Scene scroll={scrollRef} />
+              <Scene scroll={scrollRef} mouse={mouseRef} />
             </Suspense>
           </Canvas>
         )}
