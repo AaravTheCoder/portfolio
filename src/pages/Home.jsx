@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import HeroSection from '../components/HeroSection';
 import ScrollScene from '../components/ScrollScene';
+import FallingParticles from '../components/FallingParticles';
 import ProjectCard from '../components/ProjectCard';
 import CategoryFilter from '../components/CategoryFilter';
 import StatsSection from '../components/StatsSection';
@@ -89,13 +90,19 @@ export default function Home() {
 
   return (
     <div ref={rootRef} style={{ background: '#f4f5f9' }}>
-      <HeroSection />
+      {/* Falling particles — fixed canvas behind all content */}
+      <FallingParticles sceneRef={scrollSceneRef} />
+
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <HeroSection />
+      </div>
 
       {/* ── Scroll-driven 3D particle animation ── */}
-      <div ref={scrollSceneRef}>
+      <div ref={scrollSceneRef} style={{ position: 'relative', zIndex: 2 }}>
         <ScrollScene />
       </div>
 
+      <div style={{ position: 'relative', zIndex: 2 }}>
       {loading ?
       <div className="flex justify-center py-32">
           <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
@@ -200,6 +207,7 @@ export default function Home() {
           </footer>
         </>
       }
+      </div>
     </div>);
 
 }
