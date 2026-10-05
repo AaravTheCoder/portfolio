@@ -73,12 +73,14 @@ function TypewriterProjects({ projects }) {
       <span
         style={{
           display: 'inline-block',
-          width: '2px',
-          height: '1em',
+          width: '0.55em',
+          height: '1.1em',
           background: 'hsl(200 80% 60%)',
-          marginLeft: '2px',
+          marginLeft: '3px',
           verticalAlign: 'text-bottom',
+          borderRadius: '1px',
           animation: 'blink 1s step-end infinite',
+          opacity: 0.85,
         }}
       />
       <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
@@ -96,11 +98,18 @@ const socialLinks = [
 
 export default function HeroSection() {
   const [inProgress, setInProgress] = useState([]);
+  const [pastHero, setPastHero] = useState(false);
 
   useEffect(() => {
     db.entities.Project.list('display_order', 100).then(data => {
       setInProgress(data.filter(p => p.status === 'In Progress'));
     });
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.65);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
@@ -154,9 +163,11 @@ export default function HeroSection() {
           transition={{ delay: 0.3, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-none mb-6">
           
-          <span className="bg-gradient-to-r from-foreground via-foreground to-muted-foreground bg-clip-text text-transparent">Aarav Kala's
-
-          </span>
+          <motion.span
+            animate={{ opacity: pastHero ? 0 : 1, y: pastHero ? -24 : 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-block bg-gradient-to-r from-foreground via-foreground to-muted-foreground bg-clip-text text-transparent"
+          >Aarav Kala's</motion.span>
           <br />
           <span className="bg-gradient-to-r from-primary via-accent to-chart-5 bg-clip-text text-transparent">Portfolio
 

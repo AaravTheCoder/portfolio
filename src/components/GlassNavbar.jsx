@@ -12,12 +12,16 @@ const navLinks = [
 
 export default function GlassNavbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+      setPastHero(window.scrollY > window.innerHeight * 0.65);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -34,7 +38,20 @@ export default function GlassNavbar() {
         <div className="glass-strong rounded-2xl px-6 py-3 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
             <NavLogo />
-            <span className="font-bold text-lg tracking-tight">Aarav Kala</span>
+            <AnimatePresence>
+              {pastHero && (
+                <motion.span
+                  key="nav-name"
+                  initial={{ opacity: 0, x: -12, y: 6 }}
+                  animate={{ opacity: 1, x: 0, y: 0 }}
+                  exit={{ opacity: 0, x: -12, y: 6 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="font-bold text-lg tracking-tight"
+                >
+                  Aarav Kala
+                </motion.span>
+              )}
+            </AnimatePresence>
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
