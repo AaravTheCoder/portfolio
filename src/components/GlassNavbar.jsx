@@ -35,7 +35,7 @@ export default function GlassNavbar() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-white" />
             </div>
-            <span className="font-bold text-lg tracking-tight">Portfolio</span>
+            <span className="font-bold text-lg tracking-tight">Aarav Kala</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
