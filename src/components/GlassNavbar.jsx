@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sparkles } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import NavLogo from './NavLogo';
 
 const navLinks = [
   { label: 'Home', path: '/' },
@@ -32,9 +33,7 @@ export default function GlassNavbar() {
       >
         <div className="glass-strong rounded-2xl px-6 py-3 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
+            <NavLogo />
             <span className="font-bold text-lg tracking-tight">Aarav Kala</span>
           </Link>
 
