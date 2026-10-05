@@ -1,7 +1,90 @@
 import { db as realDb } from '@/api/base44Client'; const db = realDb;
 
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowDown, Github, Youtube, Mail } from 'lucide-react';
+
+const VERBS = ['creating', 'building', 'compiling', 'producing', 'computing', 'composing'];
+
+function CyclingVerb() {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setIndex(i => (i + 1) % VERBS.length), 1800);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <span className="inline-block relative" style={{ minWidth: '8ch' }}>
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={index}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.25 }}
+          className="inline-block font-mono"
+          style={{ color: 'hsl(200 80% 60%)' }}
+        >
+          {VERBS[index]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
+function TypewriterProjects({ projects }) {
+  const [displayed, setDisplayed] = useState('');
+  const [projIdx, setProjIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    if (!projects.length) return;
+    const current = projects[projIdx % projects.length].title;
+    let timeout;
+    if (!deleting) {
+      if (charIdx < current.length) {
+        timeout = setTimeout(() => {
+          setDisplayed(current.slice(0, charIdx + 1));
+          setCharIdx(c => c + 1);
+        }, 60);
+      } else {
+        timeout = setTimeout(() => setDeleting(true), 2200);
+      }
+    } else {
+      if (charIdx > 0) {
+        timeout = setTimeout(() => {
+          setDisplayed(current.slice(0, charIdx - 1));
+          setCharIdx(c => c - 1);
+        }, 35);
+      } else {
+        setDeleting(false);
+        setProjIdx(i => (i + 1) % projects.length);
+      }
+    }
+    return () => clearTimeout(timeout);
+  }, [charIdx, deleting, projIdx, projects]);
+
+  if (!projects.length) return null;
+
+  return (
+    <div className="font-mono text-sm mt-1" style={{ color: 'hsl(220 15% 65%)' }}>
+      <span style={{ color: 'hsl(200 80% 60%)' }}>▸ </span>
+      {displayed}
+      <span
+        style={{
+          display: 'inline-block',
+          width: '2px',
+          height: '1em',
+          background: 'hsl(200 80% 60%)',
+          marginLeft: '2px',
+          verticalAlign: 'text-bottom',
+          animation: 'blink 1s step-end infinite',
+        }}
+      />
+      <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
+    </div>
+  );
+}
 
 const HERO_BG = '/back.png';
 
@@ -12,6 +95,14 @@ const socialLinks = [
 ];
 
 export default function HeroSection() {
+  const [inProgress, setInProgress] = useState([]);
+
+  useEffect(() => {
+    db.entities.Project.list('display_order', 100).then(data => {
+      setInProgress(data.filter(p => p.status === 'In Progress'));
+    });
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
@@ -71,6 +162,18 @@ export default function HeroSection() {
 
           </span>
         </motion.h1>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45, duration: 0.8 }}
+          className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl mb-8 text-sm"
+        >
+          <div className="flex items-center gap-2 text-muted-foreground">
+            Currently <CyclingVerb />
+          </div>
+          <TypewriterProjects projects={inProgress} />
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}

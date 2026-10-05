@@ -12,7 +12,7 @@ function Ico() {
   return (
     <mesh ref={mesh}>
       <icosahedronGeometry args={[1, 0]} />
-      <meshBasicMaterial color="#7c3aed" wireframe />
+      <meshBasicMaterial color="#3b82f6" wireframe />
     </mesh>
   );
 }
