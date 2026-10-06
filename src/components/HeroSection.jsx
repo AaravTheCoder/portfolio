@@ -12,22 +12,32 @@ function RotatingPhoto({ images }) {
 
   useEffect(() => {
     if (images.length <= 1) return;
-    const id = setInterval(() => {
-      setVisible(false);
-      setTimeout(() => {
-        setIdx(i => (i + 1) % images.length);
-        setVisible(true);
-      }, 350);
-    }, 3800);
-    return () => clearInterval(id);
+    let timer;
+    function schedule() {
+      const delay = 1000 + Math.random() * 2000;
+      timer = setTimeout(() => {
+        setVisible(false);
+        setTimeout(() => {
+          setIdx(i => {
+            let next;
+            do { next = Math.floor(Math.random() * images.length); } while (next === i && images.length > 1);
+            return next;
+          });
+          setVisible(true);
+          schedule();
+        }, 350);
+      }, delay);
+    }
+    schedule();
+    return () => clearTimeout(timer);
   }, [images]);
 
-  if (!images.length) return <div className="w-full h-full" />;
+  if (!images.length) return null;
   return (
     <img
       src={images[idx]}
       alt=""
-      className="w-full h-full object-cover"
+      className="w-full h-auto block"
       style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.35s ease' }}
     />
   );
@@ -172,7 +182,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-7deg' }}
-          className="w-52 xl:w-60 h-64 xl:h-72 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
           <RotatingPhoto images={photoDecks[0]} />
         </motion.div>
@@ -181,7 +191,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '5deg' }}
-          className="w-52 xl:w-60 h-52 xl:h-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
         >
           <RotatingPhoto images={photoDecks[1]} />
         </motion.div>
@@ -194,7 +204,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '7deg' }}
-          className="w-52 xl:w-60 h-64 xl:h-72 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
           <RotatingPhoto images={photoDecks[2]} />
         </motion.div>
@@ -203,7 +213,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-4deg' }}
-          className="w-52 xl:w-60 h-52 xl:h-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
         >
           <RotatingPhoto images={photoDecks[3]} />
         </motion.div>
