@@ -14,7 +14,7 @@ function RotatingPhoto({ images }) {
     if (images.length <= 1) return;
     let timer;
     function schedule() {
-      const delay = 1000 + Math.random() * 2000;
+      const delay = 3000 + Math.random() * 3000;
       timer = setTimeout(() => {
         setVisible(false);
         setTimeout(() => {
@@ -182,7 +182,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-7deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-52 xl:w-60 min-h-48 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
           <RotatingPhoto images={photoDecks[0]} />
         </motion.div>
@@ -191,7 +191,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '5deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
+          className="w-52 xl:w-60 min-h-48 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
         >
           <RotatingPhoto images={photoDecks[1]} />
         </motion.div>
@@ -204,7 +204,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '7deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-52 xl:w-60 min-h-48 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
           <RotatingPhoto images={photoDecks[2]} />
         </motion.div>
@@ -213,7 +213,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-4deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
+          className="w-52 xl:w-60 min-h-48 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
         >
           <RotatingPhoto images={photoDecks[3]} />
         </motion.div>
