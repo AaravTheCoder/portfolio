@@ -25,6 +25,8 @@ export default function GlassNavbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const showName = pastHero || location.pathname !== '/';
+
   return (
     <>
       <motion.nav
@@ -39,7 +41,7 @@ export default function GlassNavbar() {
           <Link to="/" className="flex items-center gap-2 group">
             <NavLogo />
             <AnimatePresence>
-              {pastHero && (
+              {showName && (
                 <motion.span
                   key="nav-name"
                   initial={{ opacity: 0, x: -12, y: 6 }}
