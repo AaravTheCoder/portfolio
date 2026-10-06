@@ -229,19 +229,15 @@ function TypewriterProjects({ projects }) {
   );
 }
 
-// Card is always position:absolute. Spacer = BASE_H (2-line height) + overflow
-// when card exceeds BASE_H, so layout shifts only at 3+ lines.
-const BASE_H = 92; // approx 2-line card height (py-3 + 2 × leading-5 rows + mt-1)
+// Spacer always mirrors card height (animated), card stays absolute so it
+// never overlaps content below.
 function WidgetWithSpacedShift({ children }) {
   const cardRef = useRef(null);
-  const [extra, setExtra] = useState(0);
+  const [cardH, setCardH] = useState(68);
 
   useEffect(() => {
     if (!cardRef.current) return;
-    const ro = new ResizeObserver(([entry]) => {
-      const h = entry.contentRect.height;
-      setExtra(h > BASE_H ? h - BASE_H : 0);
-    });
+    const ro = new ResizeObserver(([entry]) => setCardH(entry.contentRect.height));
     ro.observe(cardRef.current);
     return () => ro.disconnect();
   }, []);
@@ -249,10 +245,13 @@ function WidgetWithSpacedShift({ children }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.45, duration: 0.8 }}
-      className="relative mb-8 w-full text-sm"
-      style={{ height: BASE_H + extra }}
+      animate={{ opacity: 1, y: 0, height: cardH }}
+      transition={{
+        opacity: { delay: 0.45, duration: 0.8 },
+        y: { delay: 0.45, duration: 0.8 },
+        height: { duration: 0.25, ease: 'easeOut' },
+      }}
+      className="relative mb-8 w-full text-sm overflow-visible"
     >
       <div
         ref={cardRef}
