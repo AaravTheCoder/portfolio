@@ -128,9 +128,9 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-7deg' }}
-          className="w-64 h-48 xl:w-72 xl:h-56 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
-          <img src="/photo1.jpg" alt="" className="w-full h-full object-contain bg-black/10" />
+          <img src="/photo1.jpg" alt="" className="w-full h-auto block" />
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: -40 }}
