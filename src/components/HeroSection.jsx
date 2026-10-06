@@ -10,17 +10,24 @@ function MobileCarousel({ images }) {
   const [idx, setIdx] = useState(0);
   const [visible, setVisible] = useState(true);
   const touchStartX = useRef(null);
+  const autoRef = useRef(null);
+  const pauseRef = useRef(null);
 
-  useEffect(() => {
+  const startAuto = () => {
     if (images.length <= 1) return;
-    const id = setInterval(() => {
+    clearInterval(autoRef.current);
+    autoRef.current = setInterval(() => {
       setVisible(false);
       setTimeout(() => {
         setIdx(i => (i + 1) % images.length);
         setVisible(true);
       }, 350);
     }, 3500);
-    return () => clearInterval(id);
+  };
+
+  useEffect(() => {
+    startAuto();
+    return () => { clearInterval(autoRef.current); clearTimeout(pauseRef.current); };
   }, [images]);
 
   const goTo = (next) => {
@@ -35,7 +42,13 @@ function MobileCarousel({ images }) {
   const onTouchEnd = (e) => {
     if (touchStartX.current === null) return;
     const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 40) goTo(idx + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 40) {
+      goTo(idx + (dx < 0 ? 1 : -1));
+      // pause auto-advance for 6 seconds after a manual swipe
+      clearInterval(autoRef.current);
+      clearTimeout(pauseRef.current);
+      pauseRef.current = setTimeout(startAuto, 6000);
+    }
     touchStartX.current = null;
   };
 
