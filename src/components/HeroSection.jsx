@@ -229,15 +229,19 @@ function TypewriterProjects({ projects }) {
   );
 }
 
-// Spacer always mirrors card height (animated), card stays absolute so it
-// never overlaps content below.
+// Spacer mirrors the card's true border-box height so card never overlaps
+// content below. Card is inline-flex so it shrinks to content, max 32rem.
 function WidgetWithSpacedShift({ children }) {
   const cardRef = useRef(null);
   const [cardH, setCardH] = useState(68);
 
   useEffect(() => {
     if (!cardRef.current) return;
-    const ro = new ResizeObserver(([entry]) => setCardH(entry.contentRect.height));
+    const ro = new ResizeObserver(([entry]) => {
+      // borderBoxSize includes padding; contentRect does not
+      const h = entry.borderBoxSize?.[0]?.blockSize ?? entry.contentRect.height;
+      setCardH(h);
+    });
     ro.observe(cardRef.current);
     return () => ro.disconnect();
   }, []);
@@ -245,17 +249,14 @@ function WidgetWithSpacedShift({ children }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0, height: cardH }}
-      transition={{
-        opacity: { delay: 0.45, duration: 0.8 },
-        y: { delay: 0.45, duration: 0.8 },
-        height: { duration: 0.25, ease: 'easeOut' },
-      }}
-      className="relative mb-8 w-full text-sm overflow-visible"
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.45, duration: 0.8 }}
+      className="relative mb-8 w-full text-sm"
+      style={{ height: cardH }}
     >
       <div
         ref={cardRef}
-        className="glass flex flex-col items-start px-5 py-3 rounded-2xl w-[min(32rem,90%)]"
+        className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl max-w-[32rem]"
         style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}
       >
         {children}
