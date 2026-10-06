@@ -207,23 +207,24 @@ function TypewriterProjects({ projects }) {
   if (!projects.length) return null;
 
   return (
-    <div className="font-mono text-sm mt-1 text-left" style={{ color: 'hsl(220 15% 65%)' }}>
-      <span style={{ color: 'hsl(200 80% 60%)' }}>▸ </span>
-      {displayed}
-      <span
-        style={{
-          display: 'inline-block',
-          width: '0.55em',
-          height: '1.1em',
-          background: 'hsl(200 80% 60%)',
-          marginLeft: '3px',
-          verticalAlign: 'text-bottom',
-          borderRadius: '1px',
-          animation: 'blink 1s step-end infinite',
-          opacity: 0.85,
-        }}
-      />
-      <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
+    <div className="font-mono text-sm mt-1 text-left flex">
+      <span style={{ color: 'hsl(200 80% 60%)', flexShrink: 0 }}>▸&nbsp;</span>
+      <span style={{ color: 'hsl(220 15% 65%)' }}>{displayed}
+        <span
+          style={{
+            display: 'inline-block',
+            width: '0.55em',
+            height: '1.1em',
+            background: 'hsl(200 80% 60%)',
+            marginLeft: '3px',
+            verticalAlign: 'text-bottom',
+            borderRadius: '1px',
+            animation: 'blink 1s step-end infinite',
+            opacity: 0.85,
+          }}
+        />
+        <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
+      </span>
     </div>
   );
 }
