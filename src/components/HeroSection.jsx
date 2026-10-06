@@ -279,13 +279,16 @@ export default function HeroSection() {
       </div>
 
       {/* Angled photo cards — left side */}
-      <div className="absolute left-[14%] hidden lg:flex flex-col gap-6 pointer-events-none z-10" style={{ top: 'calc(50% + 40px)', transform: 'translateY(-50%)' }}>
+      <div
+        className="absolute hidden lg:flex flex-col gap-6 pointer-events-none z-10"
+        style={{ left: 'max(8px, calc(50vw - 700px))', top: 'calc(50% + 40px)', transform: 'translateY(-50%)' }}
+      >
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-7deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-40 lg:w-44 xl:w-52 2xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
           <RotatingPhoto images={photoDecks[0]} />
         </motion.div>
@@ -294,20 +297,23 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '5deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
+          className="w-40 lg:w-44 xl:w-52 2xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-8"
         >
           <RotatingPhoto images={photoDecks[1]} />
         </motion.div>
       </div>
 
       {/* Angled photo cards — right side */}
-      <div className="absolute right-[14%] hidden lg:flex flex-col gap-6 pointer-events-none z-10" style={{ top: 'calc(50% + 40px)', transform: 'translateY(-50%)' }}>
+      <div
+        className="absolute hidden lg:flex flex-col gap-6 pointer-events-none z-10"
+        style={{ right: 'max(8px, calc(50vw - 700px))', top: 'calc(50% + 40px)', transform: 'translateY(-50%)' }}
+      >
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '7deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-40 lg:w-44 xl:w-52 2xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
           <RotatingPhoto images={photoDecks[2]} />
         </motion.div>
@@ -316,7 +322,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-4deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
+          className="w-40 lg:w-44 xl:w-52 2xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-8"
         >
           <RotatingPhoto images={photoDecks[3]} />
         </motion.div>
@@ -342,7 +348,7 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-4xl">
+      <div className="relative z-20 text-center px-6 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -380,7 +386,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45, duration: 0.8 }}
-          className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl mb-8 text-sm max-w-xs sm:max-w-sm overflow-hidden"
+          className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl mb-8 text-sm max-w-lg overflow-hidden"
         >
           <div className="flex items-center gap-2 text-muted-foreground flex-wrap">
             Currently <CyclingVerb />
