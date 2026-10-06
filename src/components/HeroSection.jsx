@@ -207,7 +207,7 @@ function TypewriterProjects({ projects }) {
   if (!projects.length) return null;
 
   return (
-    <div className="font-mono text-sm text-left flex" style={{ alignItems: 'flex-start' }}>
+    <div className="font-mono text-sm mt-1 text-left flex" style={{ alignItems: 'flex-start' }}>
       <span style={{ color: 'hsl(200 80% 60%)', flexShrink: 0 }}>▸&nbsp;</span>
       <span style={{ color: 'hsl(220 15% 65%)' }}>{displayed}
         <span
@@ -383,21 +383,20 @@ export default function HeroSection() {
           </span>
         </motion.h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45, duration: 0.8 }}
-          className="relative inline-block mb-16 text-sm max-w-lg"
-        >
-          <div className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl">
+        {/* Spacer so content below never shifts when card grows */}
+        <div className="mb-8" style={{ height: '4.5rem' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.8 }}
+            className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl text-sm max-w-lg"
+          >
             <div className="flex items-center gap-2 text-muted-foreground text-left">
               Currently <CyclingVerb />
             </div>
-          </div>
-          <div className="absolute left-0 top-full pt-2 w-full">
             <TypewriterProjects projects={inProgress} />
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
