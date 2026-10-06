@@ -207,7 +207,7 @@ function TypewriterProjects({ projects }) {
   if (!projects.length) return null;
 
   return (
-    <div className="font-mono text-sm mt-1 text-left flex">
+    <div className="font-mono text-sm mt-1 text-left flex" style={{ minHeight: '2.8em', alignItems: 'flex-start' }}>
       <span style={{ color: 'hsl(200 80% 60%)', flexShrink: 0 }}>▸&nbsp;</span>
       <span style={{ color: 'hsl(220 15% 65%)' }}>{displayed}
         <span
