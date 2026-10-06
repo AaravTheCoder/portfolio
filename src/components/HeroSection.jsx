@@ -256,8 +256,8 @@ function WidgetWithSpacedShift({ children, maxWidth = 0 }) {
     >
       <div
         ref={cardRef}
-        className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl max-w-[32rem]"
-        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', minWidth: maxWidth || undefined, maxWidth: maxWidth || undefined }}
+        className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl"
+        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', maxWidth: maxWidth || undefined }}
       >
         {children}
       </div>
