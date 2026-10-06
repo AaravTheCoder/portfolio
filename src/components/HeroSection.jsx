@@ -2,7 +2,7 @@ import { db as realDb } from '@/api/base44Client'; const db = realDb;
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDown, Github, Youtube, Mail } from 'lucide-react';
+import { ArrowDown, Github, Youtube, Mail, Instagram } from 'lucide-react';
 
 const VERBS = ['creating', 'building', 'compiling', 'producing', 'computing', 'composing'];
 
@@ -91,6 +91,7 @@ function TypewriterProjects({ projects }) {
 const HERO_BG = '/back.png';
 
 const socialLinks = [
+  { Icon: Instagram, href: 'https://www.instagram.com/ak041610/' },
   { Icon: Github, href: 'https://github.com/AaravTheCoder' },
   { Icon: Youtube, href: 'https://www.youtube.com/@theamazingcoderaarav2156' },
   { Icon: Mail, href: 'mailto:kalaaarav@gmail.com' },
@@ -118,6 +119,50 @@ export default function HeroSection() {
       <div className="absolute inset-0">
         <img src={HERO_BG} alt="" className="w-full h-full object-cover opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background" />
+      </div>
+
+      {/* Angled placeholder photos — left side */}
+      <div className="absolute left-4 xl:left-16 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-5 pointer-events-none z-10">
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          style={{ rotate: '-6deg' }}
+          className="w-36 h-28 xl:w-44 xl:h-36 rounded-2xl bg-gradient-to-br from-muted to-muted/60 border border-border shadow-xl overflow-hidden"
+        >
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-xs font-medium">photo</div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          style={{ rotate: '4deg' }}
+          className="w-32 h-24 xl:w-40 xl:h-32 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border border-border shadow-xl overflow-hidden ml-6"
+        >
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-xs font-medium">photo</div>
+        </motion.div>
+      </div>
+
+      {/* Angled placeholder photos — right side */}
+      <div className="absolute right-4 xl:right-16 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-5 pointer-events-none z-10">
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          style={{ rotate: '7deg' }}
+          className="w-36 h-28 xl:w-44 xl:h-36 rounded-2xl bg-gradient-to-br from-accent/10 to-chart-5/10 border border-border shadow-xl overflow-hidden"
+        >
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-xs font-medium">photo</div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          style={{ rotate: '-3deg' }}
+          className="w-32 h-24 xl:w-40 xl:h-32 rounded-2xl bg-gradient-to-br from-muted to-primary/10 border border-border shadow-xl overflow-hidden mr-6"
+        >
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-xs font-medium">photo</div>
+        </motion.div>
       </div>
 
       {/* Floating orbs */}
