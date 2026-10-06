@@ -37,7 +37,7 @@ function RotatingPhoto({ images }) {
     <img
       src={images[idx]}
       alt=""
-      className="w-full h-full object-cover"
+      className="w-full h-auto block"
       style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.35s ease' }}
     />
   );
@@ -178,20 +178,22 @@ export default function HeroSection() {
       {/* Angled photo cards — left side */}
       <div className="absolute left-[14%] xl:left-[16%] top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-6 pointer-events-none z-10">
         <motion.div
+          layout
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }, delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-7deg' }}
-          className="w-52 xl:w-60 h-64 xl:h-72 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
           <RotatingPhoto images={photoDecks[0]} />
         </motion.div>
         <motion.div
+          layout
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }, delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '5deg' }}
-          className="w-52 xl:w-60 h-52 xl:h-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
         >
           <RotatingPhoto images={photoDecks[1]} />
         </motion.div>
@@ -200,20 +202,22 @@ export default function HeroSection() {
       {/* Angled photo cards — right side */}
       <div className="absolute right-[14%] xl:right-[16%] top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-6 pointer-events-none z-10">
         <motion.div
+          layout
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }, delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '7deg' }}
-          className="w-52 xl:w-60 h-64 xl:h-72 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
           <RotatingPhoto images={photoDecks[2]} />
         </motion.div>
         <motion.div
+          layout
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }, delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-4deg' }}
-          className="w-52 xl:w-60 h-52 xl:h-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
         >
           <RotatingPhoto images={photoDecks[3]} />
         </motion.div>
