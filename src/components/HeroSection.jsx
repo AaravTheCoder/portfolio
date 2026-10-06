@@ -59,7 +59,7 @@ function MobileCarousel({ images }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.2, duration: 0.8 }}
-      className="block lg:hidden w-full mt-8"
+      className="block xl:hidden w-full mt-8"
     >
       <div
         className="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3] touch-pan-y"
@@ -271,7 +271,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 lg:pt-0 pb-10 lg:pb-0">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 xl:pt-0 pb-10 xl:pb-0">
       {/* Background */}
       <div className="absolute inset-0">
         <img src={HERO_BG} alt="" className="w-full h-full object-cover opacity-40" />
@@ -279,7 +279,7 @@ export default function HeroSection() {
       </div>
 
       {/* Angled photo cards — left side */}
-      <div className="absolute left-[14%] xl:left-[16%] top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-6 pointer-events-none z-10">
+      <div className="absolute left-[14%] top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-6 pointer-events-none z-10">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
@@ -301,7 +301,7 @@ export default function HeroSection() {
       </div>
 
       {/* Angled photo cards — right side */}
-      <div className="absolute right-[14%] xl:right-[16%] top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-6 pointer-events-none z-10">
+      <div className="absolute right-[14%] top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-6 pointer-events-none z-10">
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
