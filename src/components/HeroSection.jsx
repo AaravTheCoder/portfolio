@@ -229,6 +229,54 @@ function TypewriterProjects({ projects }) {
   );
 }
 
+// 1-2 lines: card is absolute (spacer frozen at 1-line height, no layout shift).
+// 3+ lines: card back in flow (spacer grows, content below shifts).
+const TWO_LINE_PX = 93;
+function WidgetWithSpacedShift({ children }) {
+  const cardRef = useRef(null);
+  const spacerRef = useRef(null);
+  const oneLineH = useRef(null);
+
+  useEffect(() => {
+    if (!cardRef.current || !spacerRef.current) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const h = entry.contentRect.height;
+      if (oneLineH.current === null) oneLineH.current = h;
+      if (h <= TWO_LINE_PX) {
+        spacerRef.current.style.height = `${oneLineH.current}px`;
+        Object.assign(cardRef.current.style, {
+          position: 'absolute', top: '0', left: '50%', transform: 'translateX(-50%)',
+        });
+      } else {
+        spacerRef.current.style.height = `${h}px`;
+        Object.assign(cardRef.current.style, {
+          position: 'relative', top: '', left: '', transform: '',
+        });
+      }
+    });
+    ro.observe(cardRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.45, duration: 0.8 }}
+      className="relative mb-8 w-full text-sm"
+      ref={spacerRef}
+    >
+      <div
+        ref={cardRef}
+        className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl max-w-lg"
+        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}
+      >
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
 const HERO_BG = '/back.png';
 
 const socialLinks = [
@@ -383,17 +431,12 @@ export default function HeroSection() {
           </span>
         </motion.h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45, duration: 0.8 }}
-          className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl mb-8 text-sm max-w-lg"
-        >
+        <WidgetWithSpacedShift>
           <div className="flex items-center gap-2 text-muted-foreground text-left">
             Currently <CyclingVerb />
           </div>
           <TypewriterProjects projects={inProgress} />
-        </motion.div>
+        </WidgetWithSpacedShift>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
