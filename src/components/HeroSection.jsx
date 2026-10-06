@@ -207,7 +207,7 @@ function TypewriterProjects({ projects }) {
   if (!projects.length) return null;
 
   return (
-    <div className="font-mono text-sm mt-1 text-left flex" style={{ minHeight: '2.8em', alignItems: 'flex-start' }}>
+    <div className="font-mono text-sm text-left flex" style={{ alignItems: 'flex-start' }}>
       <span style={{ color: 'hsl(200 80% 60%)', flexShrink: 0 }}>▸&nbsp;</span>
       <span style={{ color: 'hsl(220 15% 65%)' }}>{displayed}
         <span
@@ -387,12 +387,16 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45, duration: 0.8 }}
-          className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl mb-8 text-sm max-w-lg overflow-hidden"
+          className="relative inline-block mb-16 text-sm max-w-lg"
         >
-          <div className="flex items-center gap-2 text-muted-foreground flex-wrap text-left">
-            Currently <CyclingVerb />
+          <div className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl">
+            <div className="flex items-center gap-2 text-muted-foreground text-left">
+              Currently <CyclingVerb />
+            </div>
           </div>
-          <TypewriterProjects projects={inProgress} />
+          <div className="absolute left-0 top-full pt-2 w-full">
+            <TypewriterProjects projects={inProgress} />
+          </div>
         </motion.div>
 
         <motion.p
