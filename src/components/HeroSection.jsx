@@ -6,6 +6,33 @@ import { ArrowDown, Github, Youtube, Mail, Instagram } from 'lucide-react';
 
 const VERBS = ['creating', 'building', 'compiling', 'producing', 'computing', 'composing'];
 
+function RotatingPhoto({ images }) {
+  const [idx, setIdx] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const id = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIdx(i => (i + 1) % images.length);
+        setVisible(true);
+      }, 350);
+    }, 3800);
+    return () => clearInterval(id);
+  }, [images]);
+
+  if (!images.length) return <div className="w-full h-full" />;
+  return (
+    <img
+      src={images[idx]}
+      alt=""
+      className="w-full h-full object-cover"
+      style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.35s ease' }}
+    />
+  );
+}
+
 function CyclingVerb() {
   const [index, setIndex] = useState(0);
   useEffect(() => {
@@ -100,10 +127,27 @@ const socialLinks = [
 export default function HeroSection() {
   const [inProgress, setInProgress] = useState([]);
   const [pastHero, setPastHero] = useState(false);
+  const [photoDecks, setPhotoDecks] = useState([[], [], [], []]);
 
   useEffect(() => {
     db.entities.Project.list('display_order', 100).then(data => {
       setInProgress(data.filter(p => p.status === 'In Progress'));
+
+      // Collect first + second image from every project
+      const projectImgs = [];
+      data.forEach(p => {
+        const imgs = Array.isArray(p.images) ? p.images : [];
+        if (imgs[0]) projectImgs.push(imgs[0]);
+        if (imgs[1]) projectImgs.push(imgs[1]);
+      });
+
+      // Pool: personal photo first, then project images
+      const pool = ['/photo1.jpg', ...projectImgs];
+
+      // Split into 4 non-overlapping decks so no two cards ever show the same image
+      const decks = [[], [], [], []];
+      pool.forEach((img, i) => decks[i % 4].push(img));
+      setPhotoDecks(decks);
     });
   }, []);
 
@@ -121,47 +165,47 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background" />
       </div>
 
-      {/* Angled placeholder photos — left side */}
+      {/* Angled photo cards — left side */}
       <div className="absolute left-[14%] xl:left-[16%] top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-6 pointer-events-none z-10">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-7deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-52 xl:w-60 h-64 xl:h-72 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
-          <img src="/photo1.jpg" alt="" className="w-full h-auto block" />
+          <RotatingPhoto images={photoDecks[0]} />
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '5deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
+          className="w-52 xl:w-60 h-52 xl:h-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
         >
-          <div className="w-full h-40 xl:h-48" />
+          <RotatingPhoto images={photoDecks[1]} />
         </motion.div>
       </div>
 
-      {/* Angled placeholder photos — right side */}
+      {/* Angled photo cards — right side */}
       <div className="absolute right-[14%] xl:right-[16%] top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-6 pointer-events-none z-10">
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '7deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
+          className="w-52 xl:w-60 h-64 xl:h-72 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
-          <div className="w-full h-40 xl:h-48" />
+          <RotatingPhoto images={photoDecks[2]} />
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-4deg' }}
-          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
+          className="w-52 xl:w-60 h-52 xl:h-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
         >
-          <div className="w-full h-40 xl:h-48" />
+          <RotatingPhoto images={photoDecks[3]} />
         </motion.div>
       </div>
 
