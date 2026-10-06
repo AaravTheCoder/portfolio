@@ -209,7 +209,7 @@ function TypewriterProjects({ projects }) {
   return (
     <div className="font-mono text-sm mt-1 text-left flex" style={{ alignItems: 'flex-start' }}>
       <span style={{ color: 'hsl(200 80% 60%)', flexShrink: 0 }}>▸&nbsp;</span>
-      <span style={{ color: 'hsl(220 15% 65%)', whiteSpace: 'nowrap' }}>{displayed}
+      <span className="whitespace-normal lg:whitespace-nowrap" style={{ color: 'hsl(220 15% 65%)' }}>{displayed}
         <span
           style={{
             display: 'inline-block',
