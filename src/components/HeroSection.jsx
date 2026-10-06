@@ -231,7 +231,7 @@ function TypewriterProjects({ projects }) {
 
 // Spacer mirrors the card's true border-box height so card never overlaps
 // content below. Card is inline-flex so it shrinks to content, max 32rem.
-function WidgetWithSpacedShift({ children }) {
+function WidgetWithSpacedShift({ children, minWidth = 0 }) {
   const cardRef = useRef(null);
   const [cardH, setCardH] = useState(68);
 
@@ -257,7 +257,7 @@ function WidgetWithSpacedShift({ children }) {
       <div
         ref={cardRef}
         className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl max-w-[32rem]"
-        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}
+        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', minWidth: minWidth || undefined }}
       >
         {children}
       </div>
@@ -278,6 +278,16 @@ export default function HeroSection() {
   const [inProgress, setInProgress] = useState([]);
   const [pastHero, setPastHero] = useState(false);
   const [photoDecks, setPhotoDecks] = useState([[], [], [], []]);
+  const nameRef = useRef(null);
+  const [nameWidth, setNameWidth] = useState(0);
+
+  useEffect(() => {
+    if (!nameRef.current) return;
+    const ro = new ResizeObserver(() => setNameWidth(nameRef.current.getBoundingClientRect().width));
+    ro.observe(nameRef.current);
+    setNameWidth(nameRef.current.getBoundingClientRect().width);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     db.entities.Project.list('display_order', 100).then(data => {
@@ -412,6 +422,7 @@ export default function HeroSection() {
             animate={{ opacity: pastHero ? 0 : 1, y: pastHero ? -24 : 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="inline-block bg-gradient-to-r from-foreground via-foreground to-muted-foreground bg-clip-text text-transparent"
+            ref={nameRef}
           >Aarav Kala's</motion.span>
           <br />
           <span className="bg-gradient-to-r from-primary via-accent to-chart-5 bg-clip-text text-transparent">Portfolio
@@ -419,7 +430,7 @@ export default function HeroSection() {
           </span>
         </motion.h1>
 
-        <WidgetWithSpacedShift>
+        <WidgetWithSpacedShift minWidth={nameWidth}>
           <div className="flex items-center gap-2 text-muted-foreground text-left">
             Currently <CyclingVerb />
           </div>
