@@ -383,20 +383,17 @@ export default function HeroSection() {
           </span>
         </motion.h1>
 
-        {/* Spacer so content below never shifts when card grows */}
-        <div className="mb-8" style={{ minHeight: '6rem' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.8 }}
-            className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl text-sm max-w-lg"
-          >
-            <div className="flex items-center gap-2 text-muted-foreground text-left">
-              Currently <CyclingVerb />
-            </div>
-            <TypewriterProjects projects={inProgress} />
-          </motion.div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45, duration: 0.8 }}
+          className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl mb-8 text-sm max-w-lg"
+        >
+          <div className="flex items-center gap-2 text-muted-foreground text-left">
+            Currently <CyclingVerb />
+          </div>
+          <TypewriterProjects projects={inProgress} />
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
