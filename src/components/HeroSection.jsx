@@ -122,46 +122,46 @@ export default function HeroSection() {
       </div>
 
       {/* Angled placeholder photos — left side */}
-      <div className="absolute left-4 xl:left-16 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-5 pointer-events-none z-10">
+      <div className="absolute left-[14%] xl:left-[16%] top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-6 pointer-events-none z-10">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          style={{ rotate: '-6deg' }}
-          className="w-36 h-28 xl:w-44 xl:h-36 rounded-2xl bg-gradient-to-br from-muted to-muted/60 border border-border shadow-xl overflow-hidden"
+          style={{ rotate: '-7deg' }}
+          className="w-64 h-48 xl:w-72 xl:h-56 rounded-2xl bg-gradient-to-br from-muted to-muted/60 border border-border shadow-xl overflow-hidden"
         >
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-xs font-medium">photo</div>
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-sm font-medium">photo</div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          style={{ rotate: '4deg' }}
-          className="w-32 h-24 xl:w-40 xl:h-32 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border border-border shadow-xl overflow-hidden ml-6"
+          style={{ rotate: '5deg' }}
+          className="w-56 h-44 xl:w-64 xl:h-52 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border border-border shadow-xl overflow-hidden ml-10"
         >
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-xs font-medium">photo</div>
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-sm font-medium">photo</div>
         </motion.div>
       </div>
 
       {/* Angled placeholder photos — right side */}
-      <div className="absolute right-4 xl:right-16 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-5 pointer-events-none z-10">
+      <div className="absolute right-[14%] xl:right-[16%] top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-6 pointer-events-none z-10">
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '7deg' }}
-          className="w-36 h-28 xl:w-44 xl:h-36 rounded-2xl bg-gradient-to-br from-accent/10 to-chart-5/10 border border-border shadow-xl overflow-hidden"
+          className="w-64 h-48 xl:w-72 xl:h-56 rounded-2xl bg-gradient-to-br from-accent/10 to-chart-5/10 border border-border shadow-xl overflow-hidden"
         >
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-xs font-medium">photo</div>
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-sm font-medium">photo</div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          style={{ rotate: '-3deg' }}
-          className="w-32 h-24 xl:w-40 xl:h-32 rounded-2xl bg-gradient-to-br from-muted to-primary/10 border border-border shadow-xl overflow-hidden mr-6"
+          style={{ rotate: '-4deg' }}
+          className="w-56 h-44 xl:w-64 xl:h-52 rounded-2xl bg-gradient-to-br from-muted to-primary/10 border border-border shadow-xl overflow-hidden mr-10"
         >
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-xs font-medium">photo</div>
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-sm font-medium">photo</div>
         </motion.div>
       </div>
 
