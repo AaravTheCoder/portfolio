@@ -231,7 +231,7 @@ function TypewriterProjects({ projects }) {
 
 // Spacer mirrors the card's true border-box height so card never overlaps
 // content below. Card is inline-flex so it shrinks to content, max 32rem.
-function WidgetWithSpacedShift({ children, minWidth = 0 }) {
+function WidgetWithSpacedShift({ children, maxWidth = 0 }) {
   const cardRef = useRef(null);
   const [cardH, setCardH] = useState(68);
 
@@ -257,7 +257,7 @@ function WidgetWithSpacedShift({ children, minWidth = 0 }) {
       <div
         ref={cardRef}
         className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl max-w-[32rem]"
-        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', minWidth: minWidth || undefined }}
+        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', maxWidth: maxWidth || undefined }}
       >
         {children}
       </div>
@@ -430,7 +430,7 @@ export default function HeroSection() {
           </span>
         </motion.h1>
 
-        <WidgetWithSpacedShift minWidth={nameWidth}>
+        <WidgetWithSpacedShift maxWidth={nameWidth}>
           <div className="flex items-center gap-2 text-muted-foreground text-left">
             Currently <CyclingVerb />
           </div>
