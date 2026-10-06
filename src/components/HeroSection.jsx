@@ -130,7 +130,7 @@ export default function HeroSection() {
           style={{ rotate: '-7deg' }}
           className="w-64 h-48 xl:w-72 xl:h-56 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
-          <img src="/photo1.jpg" alt="" className="w-full h-full object-cover" />
+          <img src="/photo1.jpg" alt="" className="w-full h-full object-contain bg-black/10" />
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: -40 }}
