@@ -229,34 +229,35 @@ function TypewriterProjects({ projects }) {
   );
 }
 
-// 1-2 lines: card is absolute (spacer frozen at 1-line height, no layout shift).
-// 3+ lines: card back in flow (spacer grows, content below shifts).
+// 1-2 lines: card absolute (spacer frozen at 1-line height, no layout shift).
+// 3+ lines: card in flow (spacer drives height, content below shifts).
 const TWO_LINE_PX = 93;
 function WidgetWithSpacedShift({ children }) {
   const cardRef = useRef(null);
-  const spacerRef = useRef(null);
   const oneLineH = useRef(null);
+  const [spacerH, setSpacerH] = useState(0);
+  const [floating, setFloating] = useState(true); // absolute when true
 
   useEffect(() => {
-    if (!cardRef.current || !spacerRef.current) return;
+    if (!cardRef.current) return;
     const ro = new ResizeObserver(([entry]) => {
       const h = entry.contentRect.height;
       if (oneLineH.current === null) oneLineH.current = h;
       if (h <= TWO_LINE_PX) {
-        spacerRef.current.style.height = `${oneLineH.current}px`;
-        Object.assign(cardRef.current.style, {
-          position: 'absolute', top: '0', left: '50%', transform: 'translateX(-50%)',
-        });
+        setSpacerH(oneLineH.current ?? h);
+        setFloating(true);
       } else {
-        spacerRef.current.style.height = `${h}px`;
-        Object.assign(cardRef.current.style, {
-          position: 'relative', top: '', left: '', transform: '',
-        });
+        setSpacerH(0);
+        setFloating(false);
       }
     });
     ro.observe(cardRef.current);
     return () => ro.disconnect();
   }, []);
+
+  const cardStyle = floating
+    ? { position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }
+    : {};
 
   return (
     <motion.div
@@ -264,12 +265,12 @@ function WidgetWithSpacedShift({ children }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.45, duration: 0.8 }}
       className="relative mb-8 w-full text-sm"
-      ref={spacerRef}
+      style={spacerH ? { height: spacerH } : {}}
     >
       <div
         ref={cardRef}
-        className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl max-w-lg"
-        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}
+        className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl max-w-sm"
+        style={cardStyle}
       >
         {children}
       </div>
