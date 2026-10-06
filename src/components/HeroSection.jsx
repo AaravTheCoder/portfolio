@@ -9,6 +9,7 @@ const VERBS = ['creating', 'building', 'compiling', 'producing', 'computing', 'c
 function MobileCarousel({ images }) {
   const [idx, setIdx] = useState(0);
   const [visible, setVisible] = useState(true);
+  const touchStartX = useRef(null);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -22,6 +23,22 @@ function MobileCarousel({ images }) {
     return () => clearInterval(id);
   }, [images]);
 
+  const goTo = (next) => {
+    setVisible(false);
+    setTimeout(() => {
+      setIdx((next + images.length) % images.length);
+      setVisible(true);
+    }, 350);
+  };
+
+  const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 40) goTo(idx + (dx < 0 ? 1 : -1));
+    touchStartX.current = null;
+  };
+
   if (!images.length) return null;
 
   return (
@@ -31,7 +48,11 @@ function MobileCarousel({ images }) {
       transition={{ delay: 1.2, duration: 0.8 }}
       className="block lg:hidden w-full mt-8"
     >
-      <div className="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3]">
+      <div
+        className="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3] touch-pan-y"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         <img
           src={images[idx]}
           alt=""
@@ -43,9 +64,13 @@ function MobileCarousel({ images }) {
         {images.map((_, i) => (
           <button
             key={i}
-            onClick={() => setIdx(i)}
-            className="transition-all duration-300 rounded-full bg-muted-foreground/30"
-            style={{ width: i === idx ? 16 : 6, height: 6, background: i === idx ? 'hsl(var(--primary))' : undefined }}
+            onClick={() => goTo(i)}
+            className="transition-all duration-300 rounded-full"
+            style={{
+              width: i === idx ? 16 : 6,
+              height: 6,
+              background: i === idx ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground) / 0.3)',
+            }}
           />
         ))}
       </div>
@@ -233,7 +258,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pb-10 lg:pb-0">
       {/* Background */}
       <div className="absolute inset-0">
         <img src={HERO_BG} alt="" className="w-full h-full object-cover opacity-40" />
