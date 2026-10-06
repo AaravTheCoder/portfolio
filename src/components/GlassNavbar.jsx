@@ -31,8 +31,8 @@ export default function GlassNavbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className={`fixed top-4 left-0 right-0 mx-auto z-50 transition-all duration-500 ${
-          scrolled ? 'w-[92%] max-w-4xl' : 'w-[95%] max-w-5xl'
+        className={`fixed top-4 z-50 transition-all duration-500 left-4 right-4 sm:left-0 sm:right-0 sm:mx-auto ${
+          scrolled ? 'sm:w-[92%] max-w-4xl' : 'sm:w-[95%] max-w-5xl'
         }`}
       >
         <div className="glass-strong rounded-2xl px-6 py-3 flex items-center justify-between">

@@ -4,6 +4,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Mobile-only containment (no effect on tablet/desktop) ── */
+@media (max-width: 767px) {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  img, video, canvas {
+    max-width: 100%;
+  }
+
+  /* Navbar pill stays within screen */
+  nav.glass-strong, div.glass-strong {
+    box-sizing: border-box;
+  }
+}
+
 @layer base {
   :root {
     --background: 220 20% 97%;
