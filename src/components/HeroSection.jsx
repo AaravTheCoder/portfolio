@@ -137,9 +137,9 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '5deg' }}
-          className="w-56 h-44 xl:w-64 xl:h-52 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border border-border shadow-xl overflow-hidden ml-10"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
         >
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-sm font-medium">photo</div>
+          <div className="w-full h-40 xl:h-48" />
         </motion.div>
       </div>
 
@@ -150,18 +150,18 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '7deg' }}
-          className="w-64 h-48 xl:w-72 xl:h-56 rounded-2xl bg-gradient-to-br from-accent/10 to-chart-5/10 border border-border shadow-xl overflow-hidden"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-sm font-medium">photo</div>
+          <div className="w-full h-40 xl:h-48" />
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-4deg' }}
-          className="w-56 h-44 xl:w-64 xl:h-52 rounded-2xl bg-gradient-to-br from-muted to-primary/10 border border-border shadow-xl overflow-hidden mr-10"
+          className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
         >
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-sm font-medium">photo</div>
+          <div className="w-full h-40 xl:h-48" />
         </motion.div>
       </div>
 
