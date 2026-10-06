@@ -171,7 +171,7 @@ function CyclingVerb() {
   );
 }
 
-function TypewriterProjects({ projects }) {
+function TypewriterProjects({ projects, onDisplayedChange }) {
   const [displayed, setDisplayed] = useState('');
   const [projIdx, setProjIdx] = useState(0);
   const [charIdx, setCharIdx] = useState(0);
@@ -184,7 +184,9 @@ function TypewriterProjects({ projects }) {
     if (!deleting) {
       if (charIdx < current.length) {
         timeout = setTimeout(() => {
-          setDisplayed(current.slice(0, charIdx + 1));
+          const next = current.slice(0, charIdx + 1);
+          setDisplayed(next);
+          onDisplayedChange?.(next);
           setCharIdx(c => c + 1);
         }, 60);
       } else {
@@ -193,7 +195,9 @@ function TypewriterProjects({ projects }) {
     } else {
       if (charIdx > 0) {
         timeout = setTimeout(() => {
-          setDisplayed(current.slice(0, charIdx - 1));
+          const next = current.slice(0, charIdx - 1);
+          setDisplayed(next);
+          onDisplayedChange?.(next);
           setCharIdx(c => c - 1);
         }, 35);
       } else {
@@ -209,47 +213,51 @@ function TypewriterProjects({ projects }) {
   return (
     <div className="font-mono text-sm mt-1 text-left flex" style={{ alignItems: 'flex-start' }}>
       <span style={{ color: 'hsl(200 80% 60%)', flexShrink: 0 }}>▸&nbsp;</span>
-      <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-        {/* Hidden nowrap sizer — drives card width without taking visual height */}
-        <span aria-hidden="true" style={{ whiteSpace: 'nowrap', height: 0, overflow: 'hidden', visibility: 'hidden', display: 'block' }}>
-          {displayed}
-        </span>
-        {/* Visible text wraps within the width set by the sizer */}
-        <span style={{ color: 'hsl(220 15% 65%)' }}>{displayed}
-          <span
-            style={{
-              display: 'inline-block',
-              width: '0.55em',
-              height: '1.1em',
-              background: 'hsl(200 80% 60%)',
-              marginLeft: '3px',
-              verticalAlign: 'text-bottom',
-              borderRadius: '1px',
-              animation: 'blink 1s step-end infinite',
-              opacity: 0.85,
-            }}
-          />
-          <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
-        </span>
-      </div>
+      <span style={{ color: 'hsl(220 15% 65%)' }}>{displayed}
+        <span
+          style={{
+            display: 'inline-block',
+            width: '0.55em',
+            height: '1.1em',
+            background: 'hsl(200 80% 60%)',
+            marginLeft: '3px',
+            verticalAlign: 'text-bottom',
+            borderRadius: '1px',
+            animation: 'blink 1s step-end infinite',
+            opacity: 0.85,
+          }}
+        />
+        <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
+      </span>
     </div>
   );
 }
 
 // Spacer mirrors the card's true border-box height so card never overlaps
 // content below. Card is inline-flex so it shrinks to content, max 32rem.
-function WidgetWithSpacedShift({ children, maxWidth = 0 }) {
+function WidgetWithSpacedShift({ children, maxWidth = 0, measureText = '' }) {
   const cardRef = useRef(null);
+  const sizerRef = useRef(null);
   const [cardH, setCardH] = useState(68);
+  const [cardMinW, setCardMinW] = useState(0);
 
   useEffect(() => {
     if (!cardRef.current) return;
     const ro = new ResizeObserver(([entry]) => {
-      // borderBoxSize includes padding; contentRect does not
       const h = entry.borderBoxSize?.[0]?.blockSize ?? entry.contentRect.height;
       setCardH(h);
     });
     ro.observe(cardRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!sizerRef.current) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const w = entry.borderBoxSize?.[0]?.inlineSize ?? entry.contentRect.width;
+      setCardMinW(w + 40); // +40px for px-5 padding on both sides
+    });
+    ro.observe(sizerRef.current);
     return () => ro.disconnect();
   }, []);
 
@@ -261,10 +269,23 @@ function WidgetWithSpacedShift({ children, maxWidth = 0 }) {
       className="relative mb-8 w-full text-sm"
       style={{ height: cardH }}
     >
+      {/* Off-screen hidden span measures the full row (arrow + text) at correct font */}
+      <span
+        ref={sizerRef}
+        aria-hidden="true"
+        className="font-mono text-sm"
+        style={{ position: 'absolute', visibility: 'hidden', whiteSpace: 'nowrap', left: '-9999px', top: 0, pointerEvents: 'none' }}
+      >
+        ▸&nbsp;{measureText}
+      </span>
       <div
         ref={cardRef}
         className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl"
-        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', maxWidth: maxWidth || undefined }}
+        style={{
+          position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+          minWidth: cardMinW || undefined,
+          maxWidth: maxWidth || undefined,
+        }}
       >
         {children}
       </div>
@@ -285,6 +306,7 @@ export default function HeroSection() {
   const [inProgress, setInProgress] = useState([]);
   const [pastHero, setPastHero] = useState(false);
   const [photoDecks, setPhotoDecks] = useState([[], [], [], []]);
+  const [displayedText, setDisplayedText] = useState('');
   const nameRef = useRef(null);
   const [nameWidth, setNameWidth] = useState(0);
 
@@ -437,11 +459,11 @@ export default function HeroSection() {
           </span>
         </motion.h1>
 
-        <WidgetWithSpacedShift maxWidth={nameWidth}>
+        <WidgetWithSpacedShift maxWidth={nameWidth} measureText={displayedText}>
           <div className="flex items-center gap-2 text-muted-foreground text-left">
             Currently <CyclingVerb />
           </div>
-          <TypewriterProjects projects={inProgress} />
+          <TypewriterProjects projects={inProgress} onDisplayedChange={setDisplayedText} />
         </WidgetWithSpacedShift>
 
         <motion.p
