@@ -9,6 +9,8 @@ const VERBS = ['creating', 'building', 'compiling', 'producing', 'computing', 'c
 function RotatingPhoto({ images }) {
   const [idx, setIdx] = useState(0);
   const [visible, setVisible] = useState(true);
+  const [height, setHeight] = useState(240);
+  const imgRef = useRef(null);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -32,14 +34,30 @@ function RotatingPhoto({ images }) {
     return () => clearTimeout(timer);
   }, [images]);
 
-  if (!images.length) return null;
+  const handleLoad = () => {
+    if (!imgRef.current) return;
+    const { naturalWidth, naturalHeight } = imgRef.current;
+    const cardW = imgRef.current.parentElement?.offsetWidth || 208;
+    const ratio = naturalHeight / naturalWidth;
+    setHeight(Math.max(192, Math.round(cardW * ratio)));
+  };
+
+  if (!images.length) return <motion.div animate={{ height }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }} />;
   return (
-    <img
-      src={images[idx]}
-      alt=""
-      className="w-full h-auto block"
-      style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.35s ease' }}
-    />
+    <motion.div
+      animate={{ height }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      style={{ overflow: 'hidden' }}
+    >
+      <img
+        ref={imgRef}
+        src={images[idx]}
+        alt=""
+        className="w-full h-full object-cover"
+        onLoad={handleLoad}
+        style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.35s ease' }}
+      />
+    </motion.div>
   );
 }
 
@@ -178,20 +196,18 @@ export default function HeroSection() {
       {/* Angled photo cards — left side */}
       <div className="absolute left-[14%] xl:left-[16%] top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-6 pointer-events-none z-10">
         <motion.div
-          layout
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }, delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.8, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-7deg' }}
           className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
           <RotatingPhoto images={photoDecks[0]} />
         </motion.div>
         <motion.div
-          layout
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }, delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 1.0, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '5deg' }}
           className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden ml-10"
         >
@@ -202,20 +218,18 @@ export default function HeroSection() {
       {/* Angled photo cards — right side */}
       <div className="absolute right-[14%] xl:right-[16%] top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-6 pointer-events-none z-10">
         <motion.div
-          layout
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }, delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.9, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '7deg' }}
           className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden"
         >
           <RotatingPhoto images={photoDecks[2]} />
         </motion.div>
         <motion.div
-          layout
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }, delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 1.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotate: '-4deg' }}
           className="w-52 xl:w-60 rounded-2xl border border-border shadow-xl overflow-hidden mr-10"
         >
