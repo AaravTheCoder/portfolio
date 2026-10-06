@@ -22,7 +22,7 @@ export default function ProjectCard({ project, index = 0 }) {
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
-      className="group"
+      className="group min-w-0 w-full"
     >
       <Link to={`/project/${project.id}`}>
         <div className="glass-strong rounded-3xl overflow-hidden transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-primary/10">
@@ -76,7 +76,7 @@ export default function ProjectCard({ project, index = 0 }) {
                 <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${colorClass} mb-2`}>
                   {project.category}
                 </span>
-                <h3 className="text-xl font-bold tracking-tight group-hover:text-primary transition-colors duration-300">
+                <h3 className="text-xl font-bold tracking-tight group-hover:text-primary transition-colors duration-300 break-words">
                   {project.title}
                 </h3>
               </div>

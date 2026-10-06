@@ -271,7 +271,7 @@ export default function ScrollScene() {
   const scOp = useTransform(scrollYProgress, [0, 0.04, 0.95, 1], [0, 1, 1, 0]);
 
   return (
-    <div ref={ref} style={{ height: '600vh', position: 'relative' }}>
+    <div ref={ref} style={{ height: typeof window !== 'undefined' && window.innerWidth < 768 ? '350vh' : '600vh', position: 'relative' }}>
       <motion.div
         className="sticky top-0 overflow-hidden"
         style={{ height: '100svh', opacity: scOp }}

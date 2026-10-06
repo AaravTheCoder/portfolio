@@ -120,7 +120,7 @@ export default function Home() {
                   <p className="text-muted-foreground text-center mb-12 text-sm">
                     Highlights from my journey
                   </p>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 min-w-0">
                     {featured.map((project, i) =>
                 <ProjectCard key={project.id} project={project} index={i} />
                 )}
@@ -156,7 +156,7 @@ export default function Home() {
                     </p>
                   </div> :
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 min-w-0">
                     {filtered.map((project, i) =>
                 <ProjectCard key={project.id} project={project} index={i} />
                 )}
