@@ -256,7 +256,7 @@ function WidgetWithSpacedShift({ children }) {
     >
       <div
         ref={cardRef}
-        className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl max-w-sm"
+        className="glass inline-flex flex-col items-start px-5 py-3 rounded-2xl max-w-md"
         style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}
       >
         {children}
