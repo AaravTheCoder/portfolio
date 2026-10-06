@@ -6,6 +6,53 @@ import { ArrowDown, Github, Youtube, Mail, Instagram } from 'lucide-react';
 
 const VERBS = ['creating', 'building', 'compiling', 'producing', 'computing', 'composing'];
 
+function MobileCarousel({ images }) {
+  const [idx, setIdx] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const id = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIdx(i => (i + 1) % images.length);
+        setVisible(true);
+      }, 350);
+    }, 3500);
+    return () => clearInterval(id);
+  }, [images]);
+
+  if (!images.length) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.2, duration: 0.8 }}
+      className="block lg:hidden w-full mt-8"
+    >
+      <div className="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3]">
+        <img
+          src={images[idx]}
+          alt=""
+          className="w-full h-full object-cover"
+          style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.35s ease' }}
+        />
+      </div>
+      <div className="flex justify-center gap-2 mt-3">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIdx(i)}
+            className="transition-all duration-300 rounded-full bg-muted-foreground/30"
+            style={{ width: i === idx ? 16 : 6, height: 6, background: i === idx ? 'hsl(var(--primary))' : undefined }}
+          />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
 function RotatingPhoto({ images }) {
   const [idx, setIdx] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -337,6 +384,8 @@ export default function HeroSection() {
             </a>
           )}
         </motion.div>
+
+        <MobileCarousel images={photoDecks.flat()} />
       </div>
 
     </section>);
