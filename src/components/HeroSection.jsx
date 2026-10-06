@@ -384,7 +384,7 @@ export default function HeroSection() {
         </motion.h1>
 
         {/* Spacer so content below never shifts when card grows */}
-        <div className="mb-8" style={{ height: '4.5rem' }}>
+        <div className="mb-8" style={{ minHeight: '6rem' }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
