@@ -261,8 +261,8 @@ export default function HeroSection() {
         });
       });
 
-      // Pool: LUAD AI first image pinned first, then personal photo, then rest
-      const pool = [...(luadFirstImg ? [luadFirstImg] : ['/photo1.jpg']), ...(luadFirstImg ? ['/photo1.jpg'] : []), ...projectImgs];
+      // Pool: LUAD AI first image pinned first (replaces photo1.jpg), then rest
+      const pool = [luadFirstImg || '/photo1.jpg', ...projectImgs];
 
       // Split into 4 non-overlapping decks so no two cards ever show the same image
       const decks = [[], [], [], []];
