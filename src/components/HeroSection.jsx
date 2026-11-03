@@ -247,16 +247,22 @@ export default function HeroSection() {
     db.entities.Project.list('display_order', 100).then(data => {
       setInProgress(data.filter(p => p.status === 'In Progress'));
 
-      // Collect first + second image from every project
+      // Pin LUAD AI project's first image to position 0
+      const luadProject = data.find(p => p.title && p.title.toLowerCase().includes('luad'));
+      const luadFirstImg = luadProject?.images?.[0] || null;
+
+      // Collect first + second image from every project (skip LUAD AI first image, already pinned)
       const projectImgs = [];
       data.forEach(p => {
         const imgs = Array.isArray(p.images) ? p.images : [];
-        if (imgs[0]) projectImgs.push(imgs[0]);
-        if (imgs[1]) projectImgs.push(imgs[1]);
+        imgs.forEach((img, i) => {
+          if (p === luadProject && i === 0) return;
+          if (i < 2) projectImgs.push(img);
+        });
       });
 
-      // Pool: personal photo first, then project images
-      const pool = ['/photo1.jpg', ...projectImgs];
+      // Pool: LUAD AI first image pinned first, then personal photo, then rest
+      const pool = [...(luadFirstImg ? [luadFirstImg] : ['/photo1.jpg']), ...(luadFirstImg ? ['/photo1.jpg'] : []), ...projectImgs];
 
       // Split into 4 non-overlapping decks so no two cards ever show the same image
       const decks = [[], [], [], []];
