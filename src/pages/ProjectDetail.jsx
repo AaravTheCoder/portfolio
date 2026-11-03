@@ -172,7 +172,7 @@ export default function ProjectDetail() {
           <ScrollReveal className="mt-12">
             <div className="glass-strong rounded-3xl p-8 sm:p-10">
               <h2 className="text-2xl font-bold mb-6">About This Project</h2>
-              <div className="text-foreground/80 leading-relaxed text-sm">
+              <div className="text-foreground/80 leading-relaxed">
                 <ReactMarkdown
                   remarkPlugins={[remarkBreaks]}
                   components={{
