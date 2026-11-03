@@ -172,8 +172,24 @@ export default function ProjectDetail() {
           <ScrollReveal className="mt-12">
             <div className="glass-strong rounded-3xl p-8 sm:p-10">
               <h2 className="text-2xl font-bold mb-6">About This Project</h2>
-              <div className="prose prose-sm max-w-none text-foreground/80 leading-relaxed">
-                <ReactMarkdown remarkPlugins={[remarkBreaks]}>{project.long_description}</ReactMarkdown>
+              <div className="text-foreground/80 leading-relaxed text-sm">
+                <ReactMarkdown
+                  remarkPlugins={[remarkBreaks]}
+                  components={{
+                    h1: ({children}) => <h1 className="text-2xl font-bold mt-6 mb-2 text-foreground">{children}</h1>,
+                    h2: ({children}) => <h2 className="text-xl font-bold mt-6 mb-2 text-foreground">{children}</h2>,
+                    h3: ({children}) => <h3 className="text-lg font-semibold mt-4 mb-1 text-foreground">{children}</h3>,
+                    p: ({children}) => <p className="mb-3">{children}</p>,
+                    strong: ({children}) => <strong className="font-semibold text-foreground">{children}</strong>,
+                    em: ({children}) => <em className="italic">{children}</em>,
+                    ul: ({children}) => <ul className="list-disc pl-5 mb-3 space-y-1">{children}</ul>,
+                    ol: ({children}) => <ol className="list-decimal pl-5 mb-3 space-y-1">{children}</ol>,
+                    li: ({children}) => <li>{children}</li>,
+                    hr: () => <hr className="my-4 border-border" />,
+                    code: ({children}) => <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>,
+                    blockquote: ({children}) => <blockquote className="border-l-2 border-border pl-4 italic text-foreground/60 my-3">{children}</blockquote>,
+                  }}
+                >{project.long_description}</ReactMarkdown>
               </div>
             </div>
           </ScrollReveal>
