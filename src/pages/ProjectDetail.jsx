@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ExternalLink, Play, Image as ImageIcon, Loader2 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
 // 1. Import Giscus at the top
 import Giscus from '@giscus/react';
 
@@ -172,7 +173,7 @@ export default function ProjectDetail() {
             <div className="glass-strong rounded-3xl p-8 sm:p-10">
               <h2 className="text-2xl font-bold mb-6">About This Project</h2>
               <div className="prose prose-sm max-w-none text-foreground/80 leading-relaxed">
-                <ReactMarkdown>{project.long_description}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkBreaks]}>{project.long_description}</ReactMarkdown>
               </div>
             </div>
           </ScrollReveal>
